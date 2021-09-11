@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * @param $message
+ * @param array $data
+ * @param int $status
+ * @return \Illuminate\Http\JsonResponse
+ */
 function successResponse($message, $data = [], $status = 200) {
 
     if(empty($data)){
@@ -17,6 +23,12 @@ function successResponse($message, $data = [], $status = 200) {
 
 }
 
+/**
+ * @param $message
+ * @param array $data
+ * @param int $status
+ * @return \Illuminate\Http\JsonResponse
+ */
 function errorResponse($message, $data = [], $status = 400) {
 
     if(empty($data)){

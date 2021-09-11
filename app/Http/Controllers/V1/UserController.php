@@ -4,11 +4,9 @@ namespace App\Http\Controllers\V1;
 
 use Illuminate\Http\Request;
 
-class UserController extends Controller
-{
+class UserController extends Controller {
 
-    public function index()
-    {
+    public function index() {
 
     }
 
