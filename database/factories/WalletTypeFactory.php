@@ -19,8 +19,7 @@ class WalletTypeFactory extends Factory
      *
      * @return array
      */
-    public function definition()
-    {
+    public function definition() {
         return [
             'name' => $this->faker->unique()->userName(),
             'min_balance' => $this->faker->randomNumber(2),

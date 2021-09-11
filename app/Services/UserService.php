@@ -27,12 +27,20 @@ class UserService {
         return $user;
     }
 
-    private function createDefaultWallet($user, $walletTypeId = 1) {
+    private function createDefaultWallet(User $user, int $walletTypeId = 1) {
         $user->wallets()->create([
             'name' => $user->first_name,
             'wallet_type_id' => $walletTypeId,
             'address' => $this->generateWalletAddress()
         ]);
+    }
+
+    public function findByEmail(string $email) {
+        return User::where('email', $email)->first();
+    }
+
+    public function verifyPassword(string $plainPassword, string $encryptedPassword) {
+        return Hash::check($plainPassword, $encryptedPassword);
     }
 
 }

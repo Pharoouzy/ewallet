@@ -2,14 +2,19 @@
 
 namespace App\Http\Controllers\V1\Auth;
 
-use App\Models\User;
 use App\Helpers\AuthHelper;
+use App\Services\UserService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\V1\Controller;
 
 class LoginController extends Controller {
     use AuthHelper;
+
+    public $userService;
+
+    public function __construct(UserService $userService){
+        $this->userService = $userService;
+    }
 
     public function login(Request $request) {
 
@@ -18,9 +23,9 @@ class LoginController extends Controller {
             'password' => 'required'
         ]);
 
-        $user = User::where('email', $request->email)->first();
+        $user = $this->userService->findByEmail($request->email);
 
-        if ($user && Hash::check($request->password, $user->password)) {
+        if ($user && $this->userService->verifyPassword($request->password, $user->password)) {
             return successResponse('User successfully authenticated.', $this->generateToken($user));
         }
 
