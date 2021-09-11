@@ -2,6 +2,13 @@
 
 function successResponse($message, $data = [], $status = 200) {
 
+    if(empty($data)){
+        return response()->json([
+            'status' => true,
+            'message' => $message
+        ], $status);
+    }
+
     return response()->json([
         'status' => true,
         'message' => $message,
@@ -11,6 +18,13 @@ function successResponse($message, $data = [], $status = 200) {
 }
 
 function errorResponse($message, $data = [], $status = 400) {
+
+    if(empty($data)){
+        return response()->json([
+            'status' => false,
+            'message' => $message
+        ], $status);
+    }
 
     return response()->json([
         'status' => false,
