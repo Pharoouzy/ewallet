@@ -5,16 +5,12 @@ namespace App\Http\Controllers\V1;
 use App\Models\Wallet;
 use Illuminate\Http\Request;
 
-class WalletController extends Controller
-{
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
+class WalletController extends Controller {
+
+    public function index() {
+        $wallets = Wallet::orderBy('id')->get();
+
+        return successResponse('Wallets successfully retrieved', $wallets);
     }
 
     /**
@@ -23,20 +19,22 @@ class WalletController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         //
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
+    public function transfer(Request $request) {
         //
+    }
+
+    public function show(Request $request, $id) {
+        $request['id'] = $id;
+
+        $this->validate($request, ['id' => 'required|integer|exists:users,id']);
+
+        $wallet = Wallet::with(['user', 'type', 'transactions'])->find($id);
+
+        return successResponse('Wallet info successfully retrieved', $wallet);
     }
 
     /**
@@ -46,8 +44,7 @@ class WalletController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
+    public function update(Request $request, $id) {
         //
     }
 
@@ -57,8 +54,7 @@ class WalletController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
+    public function destroy($id) {
         //
     }
 }

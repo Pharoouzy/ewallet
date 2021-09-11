@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
  * @package App\Models
  */
 class Wallet extends Model {
+
     use HasFactory;
 
     /**
@@ -22,8 +23,6 @@ class Wallet extends Model {
         'address',
         'balance',
         'user_id',
-        'min_balance',
-        'monthly_interest_rate',
     ];
 
     /**
@@ -33,8 +32,6 @@ class Wallet extends Model {
      */
     protected $casts = [
         'balance' => 'float',
-        'min_balance' => 'float',
-        'monthly_interest_rate' => 'float',
     ];
 
     /**
@@ -45,10 +42,10 @@ class Wallet extends Model {
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function transactions() {
-        return $this->hasMany(Transaction::class);
+    public function type() {
+        return $this->belongsTo(WalletType::class);
     }
 
 }

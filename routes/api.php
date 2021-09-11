@@ -1,11 +1,10 @@
 <?php
 
-use App\Http\Controllers\V1\Auth\LoginController;
-use App\Http\Controllers\V1\Auth\RegisterController;
-use App\Models\User;
-use Illuminate\Http\Request;
+use App\Http\Controllers\V1\WalletController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\V1\UserController;
+use App\Http\Controllers\V1\Auth\LoginController;
+use App\Http\Controllers\V1\Auth\RegisterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,19 +21,33 @@ Route::group(['prefix' => 'v1'], function(){
 
     Route::group(['prefix' => 'auth'], function(){
 
-        Route::post('register', [RegisterController::class, 'register']);
+        Route::post('register', [RegisterController::class, 'register'])->name('auth.register');
 
-        Route::post('login', [LoginController::class, 'login']);
+        Route::post('login', [LoginController::class, 'login'])->name('auth.login');
 
         Route::group(['middleware' => 'auth:sanctum'], function(){
 
-            Route::post('logout', [LoginController::class, 'logout']);
+            Route::post('logout', [LoginController::class, 'logout'])->name('auth.logout');
 
         });
 
     });
 
-    Route::group(['prefix' => 'v1', 'middleware' => 'auth:sanctum'], function(){
+    Route::group(['middleware' => 'auth:sanctum'], function(){
+
+        Route::group(['prefix' => 'users'], function(){
+
+            Route::get('', [UserController::class, 'index'])->name('users.index');
+            Route::get('{id}', [UserController::class, 'show'])->name('users.show')->where('id', '[0-9]+');
+
+        });
+
+        Route::group(['prefix' => 'wallets'], function(){
+
+            Route::get('', [WalletController::class, 'index'])->name('wallets.index');
+            Route::get('{id}', [WalletController::class, 'show'])->name('wallets.show')->where('id', '[0-9]+');
+
+        });
 
     });
 });

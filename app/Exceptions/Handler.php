@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use BadMethodCallException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -65,6 +66,9 @@ class Handler extends ExceptionHandler
             if($exception instanceof MethodNotAllowedException) {
                 $method = $request->method();
                 return errorResponse("{$method} request method is not supported on this endpoint", [], 403);
+            }
+            if($exception instanceof BadMethodCallException) {
+                return errorResponse($exception->getMessage(), [], 403);
             }
             if($exception instanceof NotFoundHttpException) {
                 return errorResponse("The requested endpoint does not exist", [], 404);

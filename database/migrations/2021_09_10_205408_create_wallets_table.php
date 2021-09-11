@@ -16,14 +16,14 @@ class CreateWalletsTable extends Migration
         Schema::create('wallets', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('wallet_type_id');
             $table->string('name')->unique();
             $table->string('address')->unique();
             $table->decimal('balance', 20);
-            $table->decimal('min_balance')->default(0.00);
-            $table->decimal('monthly_interest_rate', 3);
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
+            $table->foreign('wallet_type_id')->references('id')->on('wallet_types')->cascadeOnDelete();
         });
     }
 
