@@ -21,10 +21,10 @@ class LoginController extends Controller {
         $user = User::where('email', $request->email)->first();
 
         if ($user && Hash::check($request->password, $user->password)) {
-            return successResponse('Authenticated', $this->generateToken($user));
+            return successResponse('User successfully authenticated.', $this->generateToken($user));
         }
 
-        return errorResponse('Unauthorized credentials', [], 401);
+        return errorResponse('Unauthorized credentials.', [], 401);
     }
 
     public function logout(Request $request) {

@@ -22,7 +22,9 @@ class WalletTypeFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'name' => $this->faker->unique()->userName(),
+            'min_balance' => $this->faker->randomNumber(2),
+            'monthly_interest_rate' => $this->faker->randomDigit(),
         ];
     }
 }

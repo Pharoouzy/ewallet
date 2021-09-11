@@ -17,7 +17,7 @@ class CreateWalletTypesTable extends Migration
             $table->id();
             $table->string('name')->unique();
             $table->decimal('min_balance')->default(0.00);
-            $table->decimal('monthly_interest_rate', 3);
+            $table->decimal('monthly_interest_rate', 3)->default(0.00);
             $table->timestamps();
         });
     }

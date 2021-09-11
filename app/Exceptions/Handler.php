@@ -65,18 +65,18 @@ class Handler extends ExceptionHandler
             }
             if($exception instanceof MethodNotAllowedException) {
                 $method = $request->method();
-                return errorResponse("{$method} request method is not supported on this endpoint", [], 403);
+                return errorResponse("{$method} request method is not supported on this endpoint.", [], 403);
             }
             if($exception instanceof BadMethodCallException) {
                 return errorResponse($exception->getMessage(), [], 403);
             }
             if($exception instanceof NotFoundHttpException) {
-                return errorResponse("The requested endpoint does not exist", [], 404);
+                return errorResponse('The requested endpoint does not exist.', [], 404);
             }
             if($exception instanceof QueryException) {
                 $errorCode = $exception->errorInfo[1];
                 if($errorCode == 1451) {
-                    return errorResponse("Cannot remove this resource permanently; It's related with other resource", [], 409);
+                    return errorResponse("Cannot remove this resource permanently; It's related with other resource.", [], 409);
                 }
             }
 

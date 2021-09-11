@@ -19,7 +19,7 @@ class CreateWalletsTable extends Migration
             $table->unsignedBigInteger('wallet_type_id');
             $table->string('name')->unique();
             $table->string('address')->unique();
-            $table->decimal('balance', 20);
+            $table->decimal('balance', 20)->default(0.00);
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\V1\Auth;
 
 use App\Models\User;
 use App\Helpers\AuthHelper;
+use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\V1\Controller;
@@ -15,6 +16,12 @@ use App\Http\Controllers\V1\Controller;
 class RegisterController extends Controller {
 
     use AuthHelper;
+
+    public $userService;
+
+    public function __construct(UserService $userService) {
+        $this->userService = $userService;
+    }
 
     /**
      * @param Request $request
@@ -29,30 +36,9 @@ class RegisterController extends Controller {
             'password' => 'required|confirmed|min:6'
         ]);
 
-        $request['password'] = Hash::make($request->password);
-
-        $user = $this->createUser($request);
-
+        $user = $this->userService->createUser($request);
         $data = $this->generateToken($user);
 
-        return successResponse('Account successfully created', $data, 201);
+        return successResponse('Account successfully created.', $data, 201);
     }
-
-    /**
-     * @param $request
-     * @return mixed
-     */
-    private function createUser($request){
-
-        return User::create($request->only([
-            'first_name',
-            'last_name',
-            'other_name',
-            'phone_number',
-            'email',
-            'verification_code',
-            'password',
-        ]));
-    }
-
 }

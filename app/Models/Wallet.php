@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 /**
  * Class Wallet
@@ -23,6 +24,7 @@ class Wallet extends Model {
         'address',
         'balance',
         'user_id',
+        'wallet_type_id',
     ];
 
     /**
