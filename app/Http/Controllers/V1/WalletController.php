@@ -5,14 +5,28 @@ namespace App\Http\Controllers\V1;
 use Illuminate\Http\Request;
 use App\Services\WalletService;
 
+/**
+ * Class WalletController
+ * @package App\Http\Controllers\V1
+ */
 class WalletController extends Controller {
 
+    /**
+     * @var WalletService
+     */
     public $walletService;
 
+    /**
+     * WalletController constructor.
+     * @param WalletService $walletService
+     */
     public function __construct(WalletService $walletService) {
         $this->walletService = $walletService;
     }
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function index() {
         $wallets = $this->walletService->getAll();
 
@@ -20,6 +34,11 @@ class WalletController extends Controller {
     }
 
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Validation\ValidationException
+     */
     public function store(Request $request) {
 
         $this->validate($request, [
@@ -35,6 +54,12 @@ class WalletController extends Controller {
         return successResponse('Wallet successfully created.', $wallet, 201);
     }
 
+    /**
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Validation\ValidationException
+     */
     public function update(Request $request, $id) {
 
         $request['id'] = $id;
@@ -55,6 +80,12 @@ class WalletController extends Controller {
         return successResponse('Wallet successfully updated.', $wallet);
     }
 
+    /**
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Validation\ValidationException
+     */
     public function transfer(Request $request, $id) {
 
         $request['id'] = $id;
@@ -67,6 +98,10 @@ class WalletController extends Controller {
 
         $senderWallet = $this->walletService->findById($id);
         $receiverWallet = $this->walletService->findByWalletAddress($request->wallet_address);
+
+        if($senderWallet->id === $receiverWallet->id) {
+            return errorResponse('Cannot send funds to the same wallet.', [], 422);
+        }
 
         $senderNewWalletBalance = $senderWallet->balance - $request->amount;
         $receiverNewWalletBalance = $receiverWallet->balance + $request->amount;
@@ -88,6 +123,12 @@ class WalletController extends Controller {
 
     }
 
+    /**
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Validation\ValidationException
+     */
     public function topup(Request $request, $id) {
 
         $request['id'] = $id;
@@ -110,7 +151,14 @@ class WalletController extends Controller {
         return errorResponse("Amount supplied is less than the minimum amount ({$wallet->type->min_balance}) required in this wallet.", [], 422);
     }
 
+    /**
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Validation\ValidationException
+     */
     public function show(Request $request, $id) {
+
         $request['id'] = $id;
 
         $this->validate($request, ['id' => 'required|integer|exists:wallets,id']);

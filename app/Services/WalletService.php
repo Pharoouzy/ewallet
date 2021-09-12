@@ -30,7 +30,7 @@ class WalletService {
             'address' => $this->generateWalletAddress(),
         ]);
 
-        return $wallet;
+        return Wallet::find($wallet->id);
     }
 
     /**

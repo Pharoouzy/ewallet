@@ -3,7 +3,8 @@
 namespace Tests\Unit;
 
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
+use App\Models\Wallet;
+use App\Models\WalletType;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -74,40 +75,18 @@ class WalletTest extends TestCase {
                     'name',
                     'user_id',
                     'address',
+                    'balance',
                     'wallet_type_id',
                     'created_at',
                     'updated_at',
-                ],
-            ]);
-
-    }public function testUserCanCreateWalletSuccessfully() {
-
-        Sanctum::actingAs(User::factory()->create(), ['*']);
-
-        $payload = [
-            'name' => 'Flex',
-            'type' => [
-                'name' => 'Savings',
-                'min_balance' => 10,
-                'monthly_interest_rate' => 2,
-            ],
-        ];
-
-        $this->postJson(route('wallets.create'), $payload)
-            ->assertStatus(201)
-            ->assertJsonStructure([
-                'status',
-                'message',
-                'data' => [
-                    'id',
-                    'name',
-                    'user_id',
-                    'address',
-                    'wallet_type_id',
-                    'created_at',
-                    'updated_at',
+                    'type' => [
+                        'name',
+                        'min_balance',
+                        'monthly_interest_rate'
+                    ],
                 ],
             ]);
 
     }
+
 }
