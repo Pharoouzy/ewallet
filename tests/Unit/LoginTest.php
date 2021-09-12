@@ -27,11 +27,11 @@ class LoginTest extends TestCase {
     public function testUserCanLoginSuccessfully() {
 
         User::factory()->create([
-            'email' => 'testlogin@app.com',
+            'email' => 'testlogin@ewallets.com',
             'password' => Hash::make('password'),
         ]);
 
-        $payload = ['email' => 'testlogin@app.com', 'password' => 'password'];
+        $payload = ['email' => 'testlogin@ewallets.com', 'password' => 'password'];
 
         $this->postJson(route('auth.login'), $payload)
             ->assertStatus(200)
@@ -56,11 +56,11 @@ class LoginTest extends TestCase {
 
     public function testInvalidLoginCredentials() {
         User::factory()->create([
-            'email' => 'testlogin@app.com',
+            'email' => 'testlogin@ewallets.com',
             'password' => Hash::make('password'),
         ]);
 
-        $payload = ['email' => 'testuser@app.com', 'password' => 'password'];
+        $payload = ['email' => 'testuser@ewallets.com', 'password' => 'password'];
 
         $this->postJson(route('auth.login'), $payload)
             ->assertStatus(401)

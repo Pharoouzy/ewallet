@@ -50,7 +50,7 @@ class RegisterTestTest extends TestCase {
         $payload = [
             'first_name' => 'Test',
             'last_name' => 'User',
-            'email' => 'testlogin@app.com',
+            'email' => 'testlogin@ewallets.com',
             'password' => 'pass',
             'password_confirmation' => 'pass',
         ];
