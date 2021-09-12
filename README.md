@@ -22,7 +22,7 @@ $ git clone git@github.com:Pharoouzy/ewallet.git
 $ cd ewallet
 ````
 
-### Step 1: Update Environment Variables
+### Step 2: Update Environment Variables
 Copy the .env.example file to .env and update the following by replacing the Xs with your actual values in the .env file:
 
 ````
@@ -34,7 +34,7 @@ DB_USERNAME=XXX
 DB_PASSWORD=XXX
 ````
 
-### Step 2: Generate Application Key
+### Step 3: Generate Application Key
 
 From your project directory, run the following command to generate the application encryption key
 
@@ -43,20 +43,20 @@ From your project directory, run the following command to generate the applicati
 $ php artisan key:generate
 ````
 
-### Step 3: Install Application Dependencies
+### Step 4: Install Application Dependencies
 From the project directory, install all dependencies with the command below:
 
 ````
 $ composer install
 ````
-### Step 4: Run database migration and seed
+### Step 5: Run database migration and seed
 When all the steps above have been completed, you then proceed to run the command below for database migration and seed
 ````
 $ php artisan migrate --seed
 ````
 The *--seed* can be ignored is you do not want any dummy data in the database.
 
-### Step 5: Run the application
+### Step 6: Run the application
 
 Start the application by running the command below, the API resources should be accessible via [http://localhost:8000](http://localhost:8000)
 
@@ -65,7 +65,7 @@ NB: The application port (8000) might be different, check your console to confir
 $ php artisan serve
 ````
 
-### Step 6: Setup and run Unit test
+### Step 7: Setup and run Unit test (Optional)
 Lastly, Copy the .env.testing.example file to .env.testing and make sure the values of the DB configuration are the same with the ones belows:
 
 ````
