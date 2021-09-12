@@ -28,6 +28,7 @@ $commands = [
     'config:cache',
     'view:clear',
     'migrate:fresh',
+    'db:seed',
     'event:cache',
 ];
 

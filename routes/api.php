@@ -48,7 +48,7 @@ Route::group(['prefix' => 'v1'], function(){
 
             Route::get('', [WalletController::class, 'index'])->name('wallets.index');
 
-            Route::post('', [WalletController::class, 'store'])->name('wallets.store');
+            Route::post('', [WalletController::class, 'store'])->name('wallets.create');
 
             Route::put('{id}', [WalletController::class, 'update'])->name('wallets.update')->where('id', '[0-9]+');
 

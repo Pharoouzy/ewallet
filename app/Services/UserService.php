@@ -5,6 +5,7 @@ namespace App\Services;
 
 use App\Models\User;
 use App\Helpers\WalletHelper;
+use App\Models\WalletType;
 use Illuminate\Support\Facades\Hash;
 
 /**
@@ -37,12 +38,12 @@ class UserService {
 
     /**
      * @param User $user
-     * @param int $walletTypeId
      */
-    private function createDefaultWallet(User $user, int $walletTypeId = 1) {
+    private function createDefaultWallet(User $user) {
+        $walletType = WalletType::create(['name' => 'Default']);
         $user->wallets()->create([
             'name' => $user->first_name,
-            'wallet_type_id' => $walletTypeId,
+            'wallet_type_id' => $walletType->id,
             'address' => $this->generateWalletAddress()
         ]);
     }

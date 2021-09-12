@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-class RegisterTestTest extends TestCase {
+class RegisterTest extends TestCase {
 
     public function testRequiredFieldsForRegister() {
         $this->postJson(route('auth.register'))
