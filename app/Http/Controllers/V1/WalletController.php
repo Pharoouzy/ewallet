@@ -82,12 +82,15 @@ class WalletController extends Controller {
 
         $wallet = $this->walletService->findById($id);
         $newWalletBalance = $wallet->balance + $request->amount;
-        //TODO: check wallet balance is empty and if the topup amount is gte min_balance
 
-        $this->walletService->topup($wallet, $request->amount, $newWalletBalance);
+        if($request->amount >= $wallet->type->min_balance){
 
-        return successResponse('Wallet successfully credited.', $wallet);
+            $this->walletService->topup($wallet, $request->amount, $newWalletBalance);
 
+            return successResponse('Wallet successfully credited.', $wallet);
+        }
+
+        return errorResponse("Amount supplied is less than the minimum amount ({$wallet->type->min_balance}) required on this wallet.", [], 422);
     }
 
     public function show(Request $request, $id) {
@@ -98,26 +101,5 @@ class WalletController extends Controller {
         $wallet = $this->walletService->findById($id);
 
         return successResponse('Wallet info successfully retrieved.', $wallet);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id) {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id) {
-        //
     }
 }

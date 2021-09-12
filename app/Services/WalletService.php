@@ -53,7 +53,7 @@ class WalletService {
 
             $this->createWalletTransaction($wallet, $amount, $newWalletBalance);
 
-        });
+        }, 5);
     }
 
     public function transfer(array $data) {
@@ -80,7 +80,7 @@ class WalletService {
                 $receiverWallet,
             );
 
-        });
+        }, 5);
     }
 
     private function createWalletTransaction(
@@ -110,6 +110,7 @@ class WalletService {
             'new_balance' => $newBalance,
             'description' => $description,
             'type' => $type,
+            'status' => 1,
         ]);
     }
 }
