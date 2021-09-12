@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers\V1\Auth;
 
-use App\Models\User;
 use App\Helpers\AuthHelper;
 use App\Services\UserService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\V1\Controller;
 
 /**
@@ -17,8 +15,15 @@ class RegisterController extends Controller {
 
     use AuthHelper;
 
+    /**
+     * @var UserService
+     */
     public $userService;
 
+    /**
+     * RegisterController constructor.
+     * @param UserService $userService
+     */
     public function __construct(UserService $userService) {
         $this->userService = $userService;
     }

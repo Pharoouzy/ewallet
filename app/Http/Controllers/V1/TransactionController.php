@@ -2,63 +2,33 @@
 
 namespace App\Http\Controllers\V1;
 
-use App\Models\Transaction;
-use Illuminate\Http\Request;
+use App\Services\TransactionService;
 
+/**
+ * Class TransactionController
+ * @package App\Http\Controllers\V1
+ */
 class TransactionController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @var TransactionService
      */
-    public function index()
-    {
-        //
+    public $transactionService;
+
+    /**
+     * TransactionController constructor.
+     * @param TransactionService $transactionService
+     */
+    public function __construct(TransactionService $transactionService) {
+        $this->transactionService = $transactionService;
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
-    {
-        //
-    }
+    public function index() {
+        $wallets = $this->transactionService->getAll();
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        return successResponse('Wallets successfully retrieved', $wallets);
     }
 }

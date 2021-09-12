@@ -167,4 +167,15 @@ class WalletService {
             'status' => 1,
         ]);
     }
+
+    public function update($wallet, $request){
+        $wallet->update(['name' => $request->name]);
+        $wallet->type()->update([
+            'name' => $request->type->name,
+            'min_balance' => $request->type->min_balance,
+            'monthly_interest_rate' => $request->type->monthly_interest_rate,
+        ]);
+
+        return $wallet;
+    }
 }

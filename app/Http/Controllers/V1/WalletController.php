@@ -4,7 +4,6 @@ namespace App\Http\Controllers\V1;
 
 use Illuminate\Http\Request;
 use App\Services\WalletService;
-use Illuminate\Support\Facades\DB;
 
 class WalletController extends Controller {
 
@@ -26,6 +25,7 @@ class WalletController extends Controller {
         $this->validate($request, [
             'name' => 'string|required|unique:wallets,name',
             'type' => 'array|required',
+            'type.name' => 'string|required|unique:wallet_types,name',
             'type.min_balance' => 'numeric|required|gte:0',
             'type.monthly_interest_rate' => 'required|numeric|gte:0'
         ]);
@@ -33,6 +33,26 @@ class WalletController extends Controller {
         $wallet = $this->walletService->create($request);
 
         return successResponse('Wallet successfully created.', $wallet, 201);
+    }
+
+    public function update(Request $request, $id) {
+
+        $request['id'] = $id;
+
+        $wallet = $this->walletService->findById($id);
+
+        $this->validate($request, [
+            'id' => 'required|integer|exists:wallets,id',
+            'name' => 'string|sometimes|unique:wallets,name,'.$wallet->type->id,
+            'type' => 'array|sometimes',
+            'type.name' => 'string|sometimes|unique:wallet_types,name,'.$wallet->id,
+            'type.min_balance' => 'numeric|sometimes|gte:0',
+            'type.monthly_interest_rate' => 'sometimes|numeric|gte:0'
+        ]);
+
+        $this->walletService->update($wallet, $request);
+
+        return successResponse('Wallet successfully updated.', $wallet);
     }
 
     public function transfer(Request $request, $id) {
