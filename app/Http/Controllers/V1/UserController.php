@@ -2,13 +2,19 @@
 
 namespace App\Http\Controllers\V1;
 
-use App\Models\User;
+use App\Services\UserService;
 use Illuminate\Http\Request;
 
 class UserController extends Controller {
 
+    public $userService;
+
+    public function __construct(UserService $userService) {
+        $this->userService = $userService;
+    }
+
     public function index() {
-        $users = User::orderBy('id')->get();
+        $users = $this->userService->getAll();
 
         return successResponse('Users successfully retrieved', $users);
     }
@@ -18,7 +24,7 @@ class UserController extends Controller {
 
         $this->validate($request, ['id' => 'required|integer|exists:users,id']);
 
-        $user = User::with(['wallets', 'transactions'])->find($id);
+        $user = $this->userService->findById($id);
 
         return successResponse('User info successfully retrieved', $user);
     }

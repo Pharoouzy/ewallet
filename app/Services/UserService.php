@@ -11,7 +11,7 @@ class UserService {
 
     use WalletHelper;
 
-    public function createUser($request){
+    public function create($request){
 
         $request['password'] = Hash::make($request->password);
 
@@ -35,8 +35,16 @@ class UserService {
         ]);
     }
 
+    public function getAll() {
+        return User::orderBy('id')->get();
+    }
+
     public function findByEmail(string $email) {
         return User::where('email', $email)->first();
+    }
+
+    public function findById(int $id) {
+        return User::with(['wallets', 'transactions'])->find($id);
     }
 
     public function verifyPassword(string $plainPassword, string $encryptedPassword) {

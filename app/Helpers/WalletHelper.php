@@ -7,11 +7,11 @@ use Illuminate\Support\Str;
 
 trait WalletHelper {
 
-    public function generateWalletAddress(){
+    public function generateWalletAddress() {
 
         $address =  Str::random(60);
 
-        if(Wallet::where('address', $address)->exists()){
+        if(Wallet::where('address', $address)->exists()) {
             return $this->generateWalletAddress();
         }
 

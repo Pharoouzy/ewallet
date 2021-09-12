@@ -51,7 +51,7 @@ class User extends Authenticatable {
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function wallets() {
-        return $this->hasMany(Wallet::class);
+        return $this->hasMany(Wallet::class)->with('type');
     }
 
     /**

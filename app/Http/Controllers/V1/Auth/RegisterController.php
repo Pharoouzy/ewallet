@@ -36,7 +36,7 @@ class RegisterController extends Controller {
             'password' => 'required|confirmed|min:6'
         ]);
 
-        $user = $this->userService->createUser($request);
+        $user = $this->userService->create($request);
         $data = $this->generateToken($user);
 
         return successResponse('Account successfully created.', $data, 201);
