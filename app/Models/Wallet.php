@@ -36,6 +36,8 @@ class Wallet extends Model {
         'balance' => 'float',
     ];
 
+    public $with = ['type'];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -47,7 +49,7 @@ class Wallet extends Model {
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function type() {
-        return $this->belongsTo(WalletType::class);
+        return $this->belongsTo(WalletType::class, 'wallet_type_id');
     }
 
 

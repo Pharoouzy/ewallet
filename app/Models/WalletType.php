@@ -31,6 +31,16 @@ class WalletType extends Model {
     ];
 
     /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function wallets() {

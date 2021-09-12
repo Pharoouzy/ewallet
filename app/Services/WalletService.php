@@ -27,14 +27,14 @@ class WalletService {
 
     private function createWalletType($data) {
         return WalletType::create([
-            'name' => $data->name,
-            'min_balance' => $data->min_balance,
-            'monthly_interest_rate' => $data->monthly_interest_rate,
+            'name' => $data['name'],
+            'min_balance' => $data['min_balance'],
+            'monthly_interest_rate' => $data['monthly_interest_rate'],
         ]);
     }
 
     public function getAll() {
-        return Wallet::orderBy('id')->get();
+        return Wallet::orderBy('id', 'desc')->get();
     }
 
     public function findById(int $id) {
@@ -51,7 +51,7 @@ class WalletService {
 
             $wallet->increment('balance', $amount);
 
-            $this->createWalletTransaction($wallet, $amount, $newWalletBalance);
+            $this->createWalletTransaction($wallet, $amount, $newWalletBalance, null, 1, true);
 
         }, 5);
     }
@@ -60,8 +60,8 @@ class WalletService {
 
         DB::transaction(function () use ($data){
 
-            $senderWallet = $data['senderWallet'];
-            $receiverWallet = $data['receiverWallet'];
+            $senderWallet = $data['sender_wallet'];
+            $receiverWallet = $data['receiver_wallet'];
             $senderWallet->decrement('balance', $data['amount']);
             $receiverWallet->increment('balance', $data['amount']);
 
@@ -74,38 +74,38 @@ class WalletService {
             );
 
             $this->createWalletTransaction(
-                $senderWallet,
+                $receiverWallet,
                 $data['amount'],
                 $data['receiver_new_wallet_balance'],
-                $receiverWallet,
+                $senderWallet,
             );
 
         }, 5);
     }
 
     private function createWalletTransaction(
-        Wallet $senderWallet,
+        Wallet $firstWallet,
         float $amount,
         float $newBalance,
-        Wallet $receiverWallet = null,
+        Wallet $secondWallet = null,
         int $type = 1,
-        bool $isTopup = false,
+        bool $isTopup = false
     ){
 
         $formattedAmount = number_format($amount, 2);
 
         if($isTopup){
-            $description = "Topup of NGN{$formattedAmount} to {$senderWallet->name} has been processed successfully.";
+            $description = "Topup of NGN{$formattedAmount} to {$firstWallet->name} has been processed successfully.";
         } else {
             $description = $type === 1 ?
-                "Credit of NGN{$formattedAmount} from {$senderWallet->name} has been processed successfully." :
-                "Transfer of NGN{$formattedAmount} to {$receiverWallet->name} has been processed successfully.";
+                "Credit of NGN{$formattedAmount} from {$secondWallet->name} has been processed successfully." :
+                "Transfer of NGN{$formattedAmount} to {$secondWallet->name} has been processed successfully.";
         }
 
 
-        $senderWallet->transactions()->create([
+        $firstWallet->transactions()->create([
             'reference' => $this->generateTransactionReference(),
-            'user_id' => $senderWallet->user_id,
+            'user_id' => $firstWallet->user_id,
             'amount' => $amount,
             'new_balance' => $newBalance,
             'description' => $description,

@@ -15,7 +15,8 @@ class DatabaseSeeder extends Seeder
     {
         \App\Models\WalletType::factory(10)->create();
         \App\Models\User::factory(10)->create();
+        \App\Models\WalletType::factory(10)->create();
         \App\Models\Wallet::factory(10)->create();
-        //$this->call(WalletTypeSeeder::class);
+        \App\Models\Transaction::factory(10)->create();
     }
 }

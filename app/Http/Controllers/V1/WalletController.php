@@ -41,7 +41,7 @@ class WalletController extends Controller {
 
         $this->validate($request, [
             'id' => 'required|integer|exists:wallets,id',
-            'wallet_address' => 'required|integer|exists:wallets,address',
+            'wallet_address' => 'required|string|exists:wallets,address',
             'amount' => 'required|numeric|gt:0',
         ]);
 
@@ -51,7 +51,7 @@ class WalletController extends Controller {
         $senderNewWalletBalance = $senderWallet->balance - $request->amount;
         $receiverNewWalletBalance = $receiverWallet->balance + $request->amount;
 
-        if($request->amount >= $senderWallet->balance && $senderNewWalletBalance <= $senderWallet->type->min_balance){
+        if($request->amount <= $senderWallet->balance && $senderNewWalletBalance >= $senderWallet->type->min_balance){
 
             $this->walletService->transfer([
                 'amount' => $request->amount,
@@ -64,10 +64,7 @@ class WalletController extends Controller {
             return successResponse('Transfer Successful.', $senderWallet);
         }
 
-        return errorResponse('Insufficient funds.', [], 422);
-        //TODO: check wallet balance and see if min_balance check is good to go
-        //TODO: if sufficient, credit receiver wallet and debit sender wallet balance (send email accordingly),
-        //TODO: display message of not sufficient
+        return errorResponse('Insufficient fund.', [], 422);
 
     }
 
@@ -90,7 +87,7 @@ class WalletController extends Controller {
             return successResponse('Wallet successfully credited.', $wallet);
         }
 
-        return errorResponse("Amount supplied is less than the minimum amount ({$wallet->type->min_balance}) required on this wallet.", [], 422);
+        return errorResponse("Amount supplied is less than the minimum amount ({$wallet->type->min_balance}) required in this wallet.", [], 422);
     }
 
     public function show(Request $request, $id) {

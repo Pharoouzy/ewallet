@@ -36,7 +36,7 @@ class UserService {
     }
 
     public function getAll() {
-        return User::orderBy('id')->get();
+        return User::orderBy('id', 'desc')->get();
     }
 
     public function findByEmail(string $email) {

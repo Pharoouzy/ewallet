@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Exception\MethodNotAllowedException;
 use Throwable;
@@ -63,7 +64,7 @@ class Handler extends ExceptionHandler
             if($exception instanceof AuthorizationException) {
                 return errorResponse($exception->getMessage(), [], 403);
             }
-            if($exception instanceof MethodNotAllowedException) {
+            if($exception instanceof MethodNotAllowedException || $exception instanceof MethodNotAllowedHttpException) {
                 $method = $request->method();
                 return errorResponse("{$method} request method is not supported on this endpoint.", [], 403);
             }
