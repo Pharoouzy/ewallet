@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\V1\ReportController;
 use App\Http\Controllers\V1\WalletController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\V1\UserController;
@@ -55,6 +56,11 @@ Route::group(['prefix' => 'v1'], function(){
 
             Route::post('{id}/topup', [WalletController::class, 'topup'])->name('wallets.topup')->where('id', '[0-9]+');
 
+        });
+
+        Route::group(['prefix' => 'reports'], function() {
+
+            Route::get('', [ReportController::class, 'index'])->name('reports.index');
         });
 
     });

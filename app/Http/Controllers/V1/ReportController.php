@@ -3,19 +3,35 @@
 namespace App\Http\Controllers\V1;
 
 use App\Models\User;
+use App\Services\ReportService;
 use Illuminate\Http\Request;
 
+/**
+ * Class ReportController
+ * @package App\Http\Controllers\V1
+ */
 class ReportController extends Controller {
 
+    /**
+     * @var ReportService
+     */
+    public $reportService;
+
+    /**
+     * ReportController constructor.
+     * @param ReportService $reportService
+     */
+    public function __construct(ReportService $reportService){
+        $this->reportService = $reportService;
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function index() {
 
-        $data = [
-            'user_count' => 1,
-            'wallet_count' => 1,
-            'total_wallet_balance' => 1,
-            'transaction_volume' => 1,
-        ];
+        $report = $this->reportService->getReport();
 
-        return successResponse('Report successfully retrieved', $data);
+        return successResponse('Report successfully retrieved', $report);
     }
 }

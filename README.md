@@ -33,15 +33,6 @@ DB_PORT=3306
 DB_DATABASE=XXX
 DB_USERNAME=XXX
 DB_PASSWORD=XXX
-
-MAIL_MAILER=XXXXXXXX
-MAIL_HOST=XXXXXXXX
-MAIL_PORT=XXXXXXXX
-MAIL_USERNAME=XXXXXXXX
-MAIL_PASSWORD=XXXXXXXX
-MAIL_ENCRYPTION=XXXXXXXX
-MAIL_FROM_ADDRESS=XXXXXXXX
-MAIL_FROM_NAME=XXXXXXXX
 ````
 
 ### Step 2: Generate Application Key
@@ -76,19 +67,14 @@ $ php artisan serve
 ````
 
 ### Step 6: Setup and run Unit test
-Lastly, Copy the .env.testing.example file to .env.testing and update the following by replacing the Xs with your actual values in the .env file:
+Lastly, Copy the .env.testing.example file to .env.testing and make sure the values of the DB configuration are the same with the ones belows:
 
 ````
-MAIL_MAILER=XXXXXXXX
-MAIL_HOST=XXXXXXXX
-MAIL_PORT=XXXXXXXX
-MAIL_USERNAME=XXXXXXXX
-MAIL_PASSWORD=XXXXXXXX
-MAIL_ENCRYPTION=XXXXXXXX
-MAIL_FROM_ADDRESS=XXXXXXXX
-MAIL_FROM_NAME=XXXXXXXX
+DB_CONNECTION=sqlite
+DB_DATABASE=database/testing.sqlite
+DB_FOREIGN_KEYS=true
 ````
-Create a database file named ```testing.sqlite``` inside ````ewallet/database/```` directory to setup database for testing purposes and run the unit test with the command below
+Create a database file named ```testing.sqlite``` inside ````ewallet/database/```` directory to set up database for testing purposes and run the unit test with the command below
 
 ````
 $ php artisan test
