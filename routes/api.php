@@ -50,6 +50,8 @@ Route::group(['prefix' => 'v1'], function(){
 
             Route::post('', [WalletController::class, 'store'])->name('wallets.store');
 
+            Route::put('{id}', [WalletController::class, 'update'])->name('wallets.update')->where('id', '[0-9]+');
+
             Route::get('{id}', [WalletController::class, 'show'])->name('wallets.show')->where('id', '[0-9]+');
 
             Route::post('{id}/transfer', [WalletController::class, 'transfer'])->name('wallets.transfer')->where('id', '[0-9]+');

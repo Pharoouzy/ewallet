@@ -43,9 +43,9 @@ class WalletController extends Controller {
 
         $this->validate($request, [
             'id' => 'required|integer|exists:wallets,id',
-            'name' => 'string|sometimes|unique:wallets,name,'.$wallet->type->id,
+            'name' => 'string|sometimes|unique:wallets,name,'.$wallet->id,
             'type' => 'array|sometimes',
-            'type.name' => 'string|sometimes|unique:wallet_types,name,'.$wallet->id,
+            'type.name' => 'string|sometimes|unique:wallet_types,name,'.$wallet->type->id,
             'type.min_balance' => 'numeric|sometimes|gte:0',
             'type.monthly_interest_rate' => 'sometimes|numeric|gte:0'
         ]);
