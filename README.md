@@ -25,7 +25,6 @@ $ cd ewallet
 ### Step 1: Update Environment Variables
 Copy the .env.example file to .env and update the following by replacing the Xs with your actual values in the .env file:
 
-NB: You can get a sandbox Mail credentials by setting up an account with [https://mailtrap.io/register/signup](https://mailtrap.io/register/signup)
 ````
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
